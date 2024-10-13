@@ -3,49 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Game</title>
+    <title>ZeusX</title>
     <style>
-                    /* Убираем отступы и устанавливаем высоту 100% */
+        /* Стили для центрирования содержимого */
         body, html {
             height: 100%;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            color: #333;
-        }
-        /* Для мобильных устройств: скрываем панель браузера */
-        @media screen and (orientation: landscape) {
-            body {
-                overflow: hidden; /* Убираем прокрутку */
-            }
+            background-color: #000000; /* Цвет фона */
+            font-family: Arial, sans-serif; /* Шрифт */
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Game!</h1>
-
+    <h1>Welcome to ZeusX!</h1> <!-- Заголовок -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Запрашиваем полный экран
-        function openFullscreen() {
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { // Firefox
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari и Opera
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { // Internet Explorer и Edge
-                elem.msRequestFullscreen();
-            }
-        }
-
-        // Автоматически запрашиваем полный экран при загрузке страницы
-        window.onload = openFullscreen;
+            window.addEventListener('load', () => {
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+        window.Telegram.WebApp.setHeaderColor("#ffffff");
+    } else {
+        console.error("Telegram WebApp не обнаружен.");
+    }
+});
     </script>
 </body>
 </html>
