@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Game</title>
     <style>
-        /* Центрирование контента на странице */
+        /* Убираем отступы и устанавливаем высоту 100% */
         body, html {
             height: 100%;
             margin: 0;
@@ -18,9 +18,34 @@
         h1 {
             color: #333;
         }
+        /* Для мобильных устройств: скрываем панель браузера */
+        @media screen and (orientation: landscape) {
+            body {
+                overflow: hidden; /* Убираем прокрутку */
+            }
+        }
     </style>
 </head>
 <body>
     <h1>Welcome to My Game!</h1>
+
+    <script>
+        // Запрашиваем полный экран
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari и Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // Internet Explorer и Edge
+                elem.msRequestFullscreen();
+            }
+        }
+
+        // Автоматически запрашиваем полный экран при загрузке страницы
+        window.onload = openFullscreen;
+    </script>
 </body>
 </html>
