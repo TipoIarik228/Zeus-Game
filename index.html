@@ -16,86 +16,22 @@
             justify-content: center;
             align-items: center;
         }
-        .buttons {
-            display: flex;
-            justify-content: space-around;
-            width: 90%;
-            position: fixed;
-            bottom: 15px;
-            padding: 5px;
-            border-radius: 20px;
-            background: rgb(0,207,219);
-            background: radial-gradient(circle, rgba(0,207,219,1) 0%, rgba(0,58,212,1) 63%);
-        }
-        .button {
-            background-color: transparent;
-            border: none;
-            width: 60px;
-            height: 70px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .button img {
-            width: 35px;
-            height: 35px;
-            filter: brightness(0.7);
-            transition: filter 0.2s ease;
-        }
-        .button-label {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 5px;
-            transition: color 0.2s ease;
-        }
-        .button.active img {
-            filter: brightness(1);
-        }
-        .button.active .button-label {
-            color: white;
-        }
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
-    <div class="buttons">
-        <button id="homeButton" class="button" onclick="activateButton(this); goHome();">
-            <img src="img/coin_icon.png" alt="Home">
-            <span class="button-label"><b>Home</b></span>
-        </button>
-        <button class="button" onclick="activateButton(this); showTasks();">
-            <img src="img/coin_icon.png" alt="Tasks">
-            <span class="button-label"><b>Tasks</b></span>
-        </button>
-        <button class="button" onclick="activateButton(this); showFriends();">
-            <img src="img/coin_icon.png" alt="Friends">
-            <span class="button-label"><b>Friends</b></span>
-        </button>
-        <button class="button" onclick="activateButton(this); showBlackScreen();">
-            <img src="img/coin_icon.png" alt="Black screen">
-            <span class="button-label"><b>Wallet</b></span>
-        </button>
-        <button class="button" onclick="activateButton(this); showLeaderboard();">
-            <img src="img/coin_icon.png" alt="Leaderboard">
-            <span class="button-label"><b>Leaderboard</b></span>
-        </button>
-    </div>
+
+    <!-- Telegram WebApp Integration -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         window.addEventListener('load', () => {
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.ready();
                 window.Telegram.WebApp.expand();
-                // Устанавливаем черный цвет для шапки
                 window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
             } else {
                 console.error("Telegram WebApp не обнаружен.");
             }
         });
     </script>
-        </body>
+</body>
 </html>
