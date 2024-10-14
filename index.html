@@ -2,185 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zeus App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeusX</title>
     <style>
-        body, html {
+        html, body {
             height: 100%;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #000;
-            color: white;
+            padding: 0;
+            background: rgb(32,32,32);
+            background: linear-gradient(0deg, rgba(32,32,32,1) 0%, rgba(0,0,0,1) 63%);
+            background-size: cover;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        /* Стили верхней кнопки "Connect wallet" */
-        .wallet-button {
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            border: none;
-            border-radius: 20px;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            margin: 15px;
-            cursor: pointer;
-        }
-
-        /* Стили для основного контента */
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            flex-grow: 1;
-        }
-        
-        .zeus-icon {
-            width: 150px;
-            height: 150px;
-        }
-        
-        .coin-count {
-            font-size: 3em;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .task-container {
-            background-color: #222;
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
-
-        .task-text {
-            font-size: 1.2em;
-        }
-
-        .claim-button {
-            background-color: #007bff;
-            border: none;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Панель навигации */
-        .nav-bar {
-            background-color: #1c1c1c;
+        .buttons {
             display: flex;
             justify-content: space-around;
-            width: 100%;
-            padding: 15px 0;
-            border-radius: 30px 30px 0 0;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.8);
+            width: 90%;
             position: fixed;
-            bottom: 0;
-            left: 0;
+            bottom: 15px;
+            padding: 5px;
+            border-radius: 20px;
+            background: rgb(0,207,219);
+            background: radial-gradient(circle, rgba(0,207,219,1) 0%, rgba(0,58,212,1) 63%);
         }
-
-        .nav-button {
-            background: #000;
-            border: 3px solid white;
-            border-radius: 10px;
+        .button {
+            background-color: transparent;
+            border: none;
+            width: 60px;
+            height: 70px;
+            cursor: pointer;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 10px;
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
         }
-
-        .nav-button img {
-            width: 25px;
-            height: 25px;
+        .button img {
+            width: 35px;
+            height: 35px;
+            filter: brightness(0.7);
+            transition: filter 0.2s ease;
         }
-
-        .nav-button span {
-            font-size: 12px;
-            color: white;
+        .button-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
             margin-top: 5px;
+            transition: color 0.2s ease;
         }
-
-        .nav-button.active {
-            background-color: #fff;
+        .button.active img {
+            filter: brightness(1);
         }
-
-        .nav-button.active img, .nav-button.active span {
-            filter: brightness(0) invert(1);
+        .button.active .button-label {
+            color: white;
         }
-
-        /* Оптимизация для мобильных устройств */
-        @media screen and (max-width: 768px) {
-            .nav-button {
-                width: 60px;
-                height: 60px;
-            }
-
-            .nav-button img {
-                width: 30px;
-                height: 30px;
-            }
-
-            .wallet-button {
-                font-size: 14px;
-            }
-
-            .claim-button {
-                font-size: 14px;
-            }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-
-    <!-- Кнопка "Connect wallet" -->
-    <button class="wallet-button">Connect wallet</button>
-
-    <!-- Основной контент -->
-    <div class="main-content">
-        <img class="zeus-icon" src="zeus_icon.png" alt="Zeus Icon">
-        <div class="coin-count" id="coin-count">99999 ZP</div>
-
-        <div class="task-container">
-            <div class="task-text">
-                <b>Subscribe to channel</b><br>
-                <span>+999 ZP</span>
-            </div>
-            <button class="claim-button" onclick="claimTask(this)">Claim</button>
-        </div>
-    </div>
-
-    <!-- Панель навигации -->
-    <div class="nav-bar">
-        <button class="nav-button active" onclick="navigateTo('home')">
-            <img src="home_icon.png" alt="Home">
-            <span>Home</span>
+    <div class="buttons">
+        <button id="homeButton" class="button" onclick="activateButton(this); goHome();">
+            <img src="img/coin_icon.png" alt="Home">
+            <span class="button-label"><b>Home</b></span>
         </button>
-        <button class="nav-button" onclick="navigateTo('tasks')">
-            <img src="tasks_icon.png" alt="Tasks">
-            <span>Tasks</span>
+        <button class="button" onclick="activateButton(this); showTasks();">
+            <img src="img/coin_icon.png" alt="Tasks">
+            <span class="button-label"><b>Tasks</b></span>
         </button>
-        <button class="nav-button" onclick="navigateTo('wheel')">
-            <img src="wheel_icon.png" alt="Wheel">
-            <span>Wheel</span>
+        <button class="button" onclick="activateButton(this); showFriends();">
+            <img src="img/coin_icon.png" alt="Friends">
+            <span class="button-label"><b>Friends</b></span>
         </button>
-        <button class="nav-button" onclick="navigateTo('friends')">
-            <img src="friends_icon.png" alt="Friends">
-            <span>Friends</span>
+        <button class="button" onclick="activateButton(this); showBlackScreen();">
+            <img src="img/coin_icon.png" alt="Black screen">
+            <span class="button-label"><b>Wallet</b></span>
+        </button>
+        <button class="button" onclick="activateButton(this); showLeaderboard();">
+            <img src="img/coin_icon.png" alt="Leaderboard">
+            <span class="button-label"><b>Leaderboard</b></span>
         </button>
     </div>
-
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         window.addEventListener('load', () => {
             if (window.Telegram && window.Telegram.WebApp) {
@@ -192,25 +96,6 @@
                 console.error("Telegram WebApp не обнаружен.");
             }
         });
-        // Функция обработки нажатия на "Claim"
-        function claimTask(button) {
-            button.textContent = 'Claimed';
-            button.disabled = true;
-            // Логика добавления монет
-            let coinCount = parseInt(document.getElementById('coin-count').textContent.split(' ')[0]);
-            coinCount += 999;
-            document.getElementById('coin-count').textContent = coinCount + ' ZP';
-        }
-
-        // Навигация по разделам приложения
-        function navigateTo(page) {
-            const buttons = document.querySelectorAll('.nav-button');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            // Здесь должна быть логика для показа разных страниц, например через скрытие/показ div'ов
-            alert("Navigating to " + page);
-        }
     </script>
-</body>
+        </body>
 </html>
