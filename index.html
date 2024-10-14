@@ -2,34 +2,303 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeusX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Coin Game</title>
     <style>
-        /* Стили для центрирования содержимого */
+        /* Стили для всего документа и фон */
         body, html {
             height: 100%;
             margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
             display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            user-select: none;
+            touch-action: none;
+            overflow: hidden;
+            background-image: url('background_img.png');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        /* Основное содержимое */
+        .main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .main-content.active {
+            display: flex;
+        }
+        .coin-icon {
+            margin-bottom: 15px;
+            margin-top: -150px;
+        }
+        .coin-count {
+            font-size: 7vw;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1px;
+            color: white;
+        }
+        /* Кнопки внизу экрана */
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            padding: 10px;
+            background-color: transparent;
+        }
+        .button {
+            background-color: transparent;
+            border: none;
+            width: 60px;
+            height: 70px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #000000; /* Цвет фона */
-            font-family: Arial, sans-serif; /* Шрифт */
+        }
+        .button img {
+            width: 35px;
+            height: 35px;
+            filter: brightness(0.7);
+            transition: filter 0.2s ease;
+        }
+        .button-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+            transition: color 0.2s ease;
+        }
+        .button.active img {
+            filter: brightness(1);
+        }
+        .button.active .button-label {
+            color: white;
+        }
+        h2{
+          text-align: center;
+        }
+        .task-container {
+            width: 97vw;
+            background: #333;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .task-icon {
+            margin-right: 15px;
+        }
+        .task-text {
+            flex-grow: 1;
+        }
+        .task-text h3 {
+            margin: 0;
+            font-size: 4vw;
+            color: white;
+        }
+        .task-text p {
+            margin: 5px 0 0;
+            font-size: 3.5vw;
+            color: dodgerblue;
+        }
+.claim-button {
+    background: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 3.5vw;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-left: 10px;
+    position: relative;
+    width: 17vw;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+        /* Стили для анимации загрузки */
+        .loading {
+            position: relative;
+        }
+        .loading:before {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-top: -10px;
+            margin-left: -10px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Неактивная кнопка */
+        .claimed {
+            background-color: gray !important;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to ZeusX!</h1> <!-- Заголовок -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Основная страница с иконкой монеты и счетчиком -->
+    <div id="home" class="main-content active">
+        <div class="coin-icon">
+          <img src="coin.png"  alt="coin" width="160vw">
+        </div>
+        <div class="coin-count">Zeus Points: <span id="coin-count">0</span></div>
+    </div>
+
+    <!-- Страница с заданиями -->
+    <div id="tasks" class="main-content">
+        <h2>Tasks List</h2>
+        <div class="task-container">
+            <div class="task-icon">
+              <img  src="task1.png" width="45vw" alt="task_icon">
+            </div>
+            <div class="task-text">
+                <h3>Subscribe to the channel</h3>
+              <p><b>+500 ZEUS</b></p>
+            </div>
+            <button class="claim-button" onclick="claimTask(this)">Claim</button>
+        </div>
+    </div>
+    <!-- Страница с приглашенными друзьями -->
+    <div id="friends" class="main-content">
+        <h2>Invited Friends</h2>
+    </div>
+
+    <!-- Страница с таблицей лидеров -->
+    <div id="leaderboard" class="main-content">
+        <h2>Leaderboard</h2>
+    </div>
+
+    <!-- Черный экран -->
+    <div id="black-screen" class="main-content">
+        <h2>Connect wallet</h2>
+    </div>
+
+    <!-- Панель кнопок -->
+    <div class="buttons">
+        <button id="homeButton" class="button active" onclick="activateButton(this); goHome();">
+            <img src="home_icon.png" alt="Home">
+            <span class="button-label"><b>Home</b></span>
+        </button>
+        <button class="button" onclick="activateButton(this); showTasks();">
+            <img src="tasks_icon.png" alt="Tasks">
+            <span class="button-label"><b>Tasks</b></span>
+        </button>
+        <button class="button" onclick="activateButton(this); showFriends();">
+            <img src="friends_icon.png" alt="Friends">
+            <span class="button-label"><b>Friends</b></span>
+        </button>
+        <button class="button" onclick="activateButton(this); showLeaderboard();">
+            <img src="leaderboard_icon.png" alt="Leaderboard">
+            <span class="button-label"><b>Leaderboard</b></span>
+        </button>
+        <button class="button" onclick="activateButton(this); showBlackScreen();">
+            <img src="wallet_icon.png" alt="Black Screen">
+            <span class="button-label"><b>Wallet</b></span>
+        </button>
+    </div>
+
+    <script async src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-            window.addEventListener('load', () => {
+
+        window.addEventListener('load', () => {
     if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
-        window.Telegram.WebApp.setHeaderColor("#ffffff");
+
+        window.Telegram.WebApp.setHeaderColor("#000000");
     } else {
         console.error("Telegram WebApp не обнаружен.");
     }
 });
+
+        window.onload = function() {
+            activateButton(document.getElementById('homeButton'));
+        };
+
+        let coinCount = 0;
+
+        function addCoins(amount) {
+            coinCount += amount;
+            document.getElementById('coin-count').textContent = coinCount;
+        }
+
+        function activateButton(button) {
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+
+        function goHome() {
+            switchPage('home');
+        }
+
+        function showTasks() {
+            switchPage('tasks');
+        }
+
+        function showFriends() {
+            switchPage('friends');
+        }
+
+        function showLeaderboard() {
+            switchPage('leaderboard');
+        }
+
+        function showBlackScreen() {
+            switchPage('black-screen');
+        }
+
+        function switchPage(pageId) {
+            const pages = document.querySelectorAll('.main-content');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function claimTask(button) {
+            if (button.classList.contains('claimed')) {
+                return;
+            }
+
+            button.classList.add('claimed');
+            button.textContent = 'Claimed';
+            addCoins(500);
+        }
     </script>
 </body>
 </html>
