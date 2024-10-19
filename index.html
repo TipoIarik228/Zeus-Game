@@ -10,25 +10,112 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            background: rgb(45,45,45);
-            background: linear-gradient(0deg, rgba(45,45,45,1) 0%, rgba(0,0,0,1) 63%);
-            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: rgb(45, 45, 45);
+            background: linear-gradient(0deg, rgba(45, 45, 45, 1) 0%, rgba(0, 0, 0, 1) 63%);
+            background-size: cover;
+        }
+
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .content {
+            flex-grow: 1;
+            display: none; /* Скрываем все экраны */
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .content.active {
+            display: flex; /* Показываем активный экран */
+        }
+
+        .bottom-nav {
+            display: flex;
+            width: 95vw;
+            justify-content: space-around;
+            background: rgb(1,214,237);
+            background: radial-gradient(circle, rgba(1,214,237,1) 0%, rgba(0,16,209,1) 84%);
+            border-radius: 30px;
+            padding: 10px;
+            
+        }
+
+        .bottom-nav button {
+            flex-grow: 1;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .bottom-nav button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .bottom-nav button.active {
+            background-color: rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
 <body>
+    <div id="container">
+        <div id="home" class="content active">Home Screen</div>
+        <div id="leaderboard" class="content">Leaderboard Screen</div>
+        <div id="tasks" class="content">Tasks Screen</div>
+        <div id="wheel" class="content">Wheel Screen</div>
+        <div id="friends" class="content">Friends Screen</div>
+
+        <div class="bottom-nav">
+            <button id="btn-home" class="active">Home</button>
+            <button id="btn-leaderboard">Leaderboard</button>
+            <button id="btn-tasks">Tasks</button>
+            <button id="btn-wheel">Wheel</button>
+            <button id="btn-friends">Friends</button>
+        </div>
+    </div>
+
     <script>
-         window.addEventListener('load', () => {
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-            window.Telegram.WebApp.setHeaderColor("#000000");
-        } else {
-            console.error("Telegram WebApp не обнаружен.");
+        // Функция для переключения экранов
+        function switchScreen(screenId) {
+            // Скрываем все экраны
+            document.querySelectorAll('.content').forEach(content => content.classList.remove('active'));
+
+            // Показываем выбранный экран
+            document.getElementById(screenId).classList.add('active');
+
+            // Обновляем активную кнопку
+            document.querySelectorAll('.bottom-nav button').forEach(button => button.classList.remove('active'));
+            document.getElementById('btn-' + screenId).classList.add('active');
         }
+
+        // Навешиваем обработчики на кнопки
+        document.getElementById('btn-home').addEventListener('click', () => switchScreen('home'));
+        document.getElementById('btn-leaderboard').addEventListener('click', () => switchScreen('leaderboard'));
+        document.getElementById('btn-tasks').addEventListener('click', () => switchScreen('tasks'));
+        document.getElementById('btn-wheel').addEventListener('click', () => switchScreen('wheel'));
+        document.getElementById('btn-friends').addEventListener('click', () => switchScreen('friends'));
+
+        window.addEventListener('load', () => {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+                window.Telegram.WebApp.setHeaderColor("#000000");
+            } else {
+                console.error("Telegram WebApp не обнаружен.");
+            }
         });
     </script>
 </body>
