@@ -45,12 +45,13 @@
             justify-content: center;
             background: radial-gradient(circle, rgba(1,214,237,1) 0%, rgba(0,16,209,1) 84%);
             border-radius: 30px;
-            padding: 8px 0; /* Отступ от нижней части экрана */
+            padding: 8px 0px; /* Отступ от нижней части экрана */
             position: fixed;
             bottom: 15px; /* Отступ в 15px от нижнего края экрана */
             left: 50%;
             transform: translateX(-50%); /* Центрирование по горизонтали */
             width: 95vw;
+
         }
 
         .inner-nav {
@@ -70,7 +71,7 @@
             color: black;
             font-size: 12px; /* Уменьшаем размер текста */
             font-weight: bold; /* Делаем текст жирным */
-            padding: 10px;
+            padding: 4px 10px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -80,40 +81,21 @@
         }
 
         .inner-nav button img {
-            width: 24px; /* Размер пользовательской иконки */
-            height: 24px;
+            width: 30px; /* Размер пользовательской иконки */
+            height: 30px;
             margin-bottom: 5px; /* Отступ между иконкой и текстом */
         }
-
-        .inner-nav button i {
-            font-size: 20px; /* Размер иконки */
-            margin-bottom: 5px; /* Отступ между иконкой и текстом */
-        }
-
         .inner-nav button.active::before {
             content: '';
             position: absolute;
-            width: 80px;
-            height: 80px;
-            background-color: rgba(192, 192, 192, 0.3); /* Полупрозрачный серый круг */
-            border-radius: 50%;
+            width: 60px;
+            height: 55px;
+            background-color: rgba(63, 63, 63, 0.212); /* Полупрозрачный серый круг */
+            border-radius: 40%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); /* Центрируем круг по кнопке */
             z-index: -1; /* Круг под кнопкой */
-        }
-
-        .inner-nav button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .inner-nav button.active {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Равномерное расстояние между кнопками */
-        .inner-nav button + button {
-            margin-left: 0; /* Отступ между кнопками */
         }
     </style>
 </head>
@@ -128,23 +110,23 @@
         <div class="bottom-nav">
             <div class="inner-nav">
                 <button id="btn-leaders">
-                    <img src="your-icon-url-here" alt="Leaders Icon">
+                    <img src="img/leaders-icon.png" alt="Leaders Icon">
                     Leaders
                 </button>
                 <button id="btn-tasks">
-                    <img src="your-icon-url-here" alt="Tasks Icon">
+                    <img src="img/tasks-icon.png" alt="Tasks Icon">
                     Tasks
                 </button>
                 <button id="btn-home" class="active">
-                    <img src="your-icon-url-here" alt="Home Icon">
+                    <img src="img/home-icon.png" alt="Home Icon">
                     Home
                 </button>
                 <button id="btn-wheel">
-                    <img src="your-icon-url-here" alt="Wheel Icon">
+                    <img src="img/wheel-icon.png" alt="Wheel Icon">
                     Wheel
                 </button>
                 <button id="btn-friends">
-                    <img src="your-icon-url-here" alt="Friends Icon">
+                    <img src="img/friends-icon.png" alt="Friends Icon">
                     Friends
                 </button>
             </div>
