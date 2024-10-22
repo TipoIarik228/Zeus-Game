@@ -17,6 +17,7 @@
             background: linear-gradient(0deg, rgba(45, 45, 45, 1) 0%, rgba(0, 0, 0, 1) 63%);
             background-size: cover;
             overflow: hidden; /* Запретить прокрутку */
+            touch-action: pan-y; /* Запретить масштабирование */
         }
 
         #container {
@@ -52,7 +53,6 @@
             left: 50%;
             transform: translateX(-50%); /* Центрирование по горизонтали */
             width: 95vw;
-
         }
 
         .inner-nav {
