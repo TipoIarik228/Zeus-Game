@@ -16,6 +16,7 @@
             background: rgb(45, 45, 45);
             background: linear-gradient(0deg, rgba(45, 45, 45, 1) 0%, rgba(0, 0, 0, 1) 63%);
             background-size: cover;
+            overflow: hidden; /* Запретить прокрутку */
         }
 
         #container {
@@ -163,6 +164,18 @@
                 console.error("Telegram WebApp не обнаружен.");
             }
         });
+
+        // Отключение двойного нажатия
+        document.body.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Отключение прокрутки
+        document.body.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
